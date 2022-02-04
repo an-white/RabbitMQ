@@ -1,26 +1,32 @@
 import pika
 
-"""
-estableciendo conexion con RabbitMQ server
-"""
-conn = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 
-channel = conn.channel()
+def send():
+    """
+    estableciendo conexion con RabbitMQ server
+    """
+    conn = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 
-"""
-crear el recipiente de una cola
-"""
+    channel = conn.channel()
 
-channel.queue_declare(queue="hello")
+    """
+    crear el contenedor de una cola
+    """
 
-"""
-enviar info a la cola, el routing_key es el nombre de la cola y el body es la informacion que recibe dicha cola
-"""
-channel.basic_publish(exchange="", routing_key="hello", body="ola kiazez")
-print("[x] Envio 'hola'")
+    channel.queue_declare(queue="hello")
 
-"""
-asegurarse que el buffer fue limpiado y el mensaje fue entregado
-"""
+    """
+    enviar info a la cola, el routing_key es el nombre de la cola y el body es la informacion que recibe dicha cola
+    """
+    channel.basic_publish(exchange="", routing_key="hello", body="ola kiazez")
+    print("[x] Envio 'hola'")
 
-conn.close()
+    """
+    asegurarse que el buffer fue limpiado y el mensaje fue entregado
+    """
+
+    conn.close()
+
+
+if __name__ == '__main__':
+    send()
